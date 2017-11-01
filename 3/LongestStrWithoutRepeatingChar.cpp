@@ -8,22 +8,16 @@ public:
     int lengthOfLongestSubstring(string s) {
         int maxLen = 0;
         int currLen = 0;
-        int lastHead = 0;
         char letterMap[128];
-        memset(letterMap, 0, sizeof(letterMap));
+        memset(letterMap, -1, sizeof(letterMap));
         for (int i = 0; i < s.length(); i++) {
-            if (letterMap[int(s[i])]) {
+            if (letterMap[int(s[i])] != -1) {
                 currLen = 0;
-                memset(letterMap, 0, sizeof(letterMap));
-                for (int j = lastHead; j < i; j++)
-                    if (s[j] == s[i]) {
-                        lastHead = j + 1;
-                        i = j;
-                        break;
-                    }
+                i = letterMap[int(s[i])];
+                memset(letterMap, -1, sizeof(letterMap));
             } else {
                 currLen++;
-                letterMap[int(s[i])] = 1;
+                letterMap[int(s[i])] = i;
                 if (currLen > maxLen)
                     maxLen = currLen;
             }
